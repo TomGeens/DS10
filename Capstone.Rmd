@@ -23,10 +23,16 @@ if(!file.exists("ds.zip")){
   download.file("https://d396qusza40orc.cloudfront.net/dsscapstone/dataset/Coursera-SwiftKey.zip","ds.zip")
   unzip("ds.zip")
   }
+```
+
+The dataset has to be downloaded [here](https://d396qusza40orc.cloudfront.net/dsscapstone/dataset/Coursera-SwiftKey.zip).
+
+```{r, cache=TRUE}
+if(!file.exists("ds.zip")){download.file("https://d396qusza40orc.cloudfront.net/dsscapstone/dataset/Coursera-SwiftKey.zip","ds.zip")}
+ds<-read.csv("ds.zip")
 if(!file.exists("tmir.pdf")){download.file("https://www.jstatsoft.org/index.php/jss/article/view/v025i05/v25i05.pdf","tmir.pdf")}
 if(!file.exists("nlp.pdf")){download.file("https://en.wikipedia.org/w/index.php?title=Special:Book&bookcmd=download&collection_id=eb7e52dcdd3e8268168a3211ec33a5bdf2f71239&writer=rdf2latex&return_to=Natural+language+processing","nlp.pdf")}
 ```
-
 
 The first step in analyzing our new data set is figuring out:  
 1. what data you have and  
@@ -105,4 +111,4 @@ Review criteria
 * Does the link lead to an HTML page describing the exploratory analysis of the training data set?  
 * Has the data scientist done basic summaries of the three files? Word counts, line counts and basic data tables?  
 * Has the data scientist made basic plots, such as histograms to illustrate features of the data?
-*  Was the report written in a brief, concise style, in a way that a non-data scientist manager could appreciate?
+* Was the report written in a brief, concise style, in a way that a non-data scientist manager could appreciate?  
