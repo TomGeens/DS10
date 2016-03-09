@@ -13,8 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 Background information for the project  
 * Text Mining Infrastructure in R ([download pdf](https://www.jstatsoft.org/index.php/jss/article/view/v025i05/v25i05.pdf))  
 * [CRAN Task View NLP](https://cran.r-project.org/web/views/NaturalLanguageProcessing.html)  
-*  [Natural Language Processing Wikipedia entry](https://en.wikipedia.org/wiki/Natural_language_processing)  
-
+* [Natural Language Processing Wikipedia entry](https://en.wikipedia.org/wiki/Natural_language_processing)  
 
 The dataset for the project has to be downloaded [here](https://d396qusza40orc.cloudfront.net/dsscapstone/dataset/Coursera-SwiftKey.zip).
 
@@ -29,7 +28,6 @@ The dataset has to be downloaded [here](https://d396qusza40orc.cloudfront.net/ds
 
 ```{r, cache=TRUE}
 if(!file.exists("ds.zip")){download.file("https://d396qusza40orc.cloudfront.net/dsscapstone/dataset/Coursera-SwiftKey.zip","ds.zip")}
-ds<-read.csv("ds.zip")
 if(!file.exists("tmir.pdf")){download.file("https://www.jstatsoft.org/index.php/jss/article/view/v025i05/v25i05.pdf","tmir.pdf")}
 if(!file.exists("nlp.pdf")){download.file("https://en.wikipedia.org/w/index.php?title=Special:Book&bookcmd=download&collection_id=eb7e52dcdd3e8268168a3211ec33a5bdf2f71239&writer=rdf2latex&return_to=Natural+language+processing","nlp.pdf")}
 ```
@@ -43,7 +41,7 @@ This exercise uses the files named LOCALE.blogs.txt where LOCALE is the each of 
 For example, the following code could be used to read the first few lines of the English Twitter dataset:
 
 ```{r}
-con <- file("en_US.twitter.txt", "r") 
+con <- file("final/en_US/en_US.twitter.txt", "r") 
 readLines(con, 1) ## Read the first line of text 
 readLines(con, 1) ## Read the next line of text 
 readLines(con, 5) ## Read in the next 5 lines of text 
@@ -88,7 +86,7 @@ twitter[grep("biostats",twitter)]
 length(grep("A computer once beat me at chess, but it was no match for me at kickboxing",twitter))
 ```
 
-#tasks 1
+#task 1
 Tokenization - identifying appropriate tokens such as words, punctuation, and numbers. Writing a function that takes a file as input and returns a tokenized version of it.
 Profanity filtering - removing profanity and other words you do not want to predict.
 
