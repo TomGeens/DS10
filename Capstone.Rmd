@@ -13,6 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 Background information for the project  
 
 * Text Mining Infrastructure in R ([download pdf](https://www.jstatsoft.org/index.php/jss/article/view/v025i05/v25i05.pdf))  
+* [tm vignette](https://cran.r-project.org/web/packages/tm/vignettes/tm.pdf)
 * [CRAN Task View NLP](https://cran.r-project.org/web/views/NaturalLanguageProcessing.html)  
 * [Natural Language Processing Wikipedia entry](https://en.wikipedia.org/wiki/Natural_language_processing)  
 
@@ -30,6 +31,7 @@ The dataset has to be downloaded [here](https://d396qusza40orc.cloudfront.net/ds
 ```{r, cache=TRUE}
 if(!file.exists("ds.zip")){download.file("https://d396qusza40orc.cloudfront.net/dsscapstone/dataset/Coursera-SwiftKey.zip","ds.zip")}
 if(!file.exists("tmir.pdf")){download.file("https://www.jstatsoft.org/index.php/jss/article/view/v025i05/v25i05.pdf","tmir.pdf")}
+if(!file.exists("tmvig.pdf")){download.file("https://cran.r-project.org/web/packages/tm/vignettes/tm.pdf","tmvig.pdf")}
 if(!file.exists("nlp.pdf")){download.file("https://en.wikipedia.org/w/index.php?title=Special:Book&bookcmd=download&collection_id=eb7e52dcdd3e8268168a3211ec33a5bdf2f71239&writer=rdf2latex&return_to=Natural+language+processing","nlp.pdf")}
 ```
 
@@ -88,8 +90,52 @@ length(grep("A computer once beat me at chess, but it was no match for me at kic
 ```
 
 #task 1
-Tokenization - identifying appropriate tokens such as words, punctuation, and numbers. Writing a function that takes a file as input and returns a tokenized version of it.
-Profanity filtering - removing profanity and other words you do not want to predict.
+This task comprises two subtasks:  
+
+* Tokenization - identifying appropriate tokens such as words, punctuation, and numbers. Writing a function that takes a file as input and returns a tokenized version of it,  
+* Profanity filtering - removing profanity and other words you do not want to predict.  
+
+We'll combine the two tasks into one, starting with downloading a txt file containing 1382 unwanted words we'll conveniently label as our "profanity" dataset.
+
+```{r, cache=TRUE}
+if(!file.exists("profanity.txt")){download.file("http://www.cs.cmu.edu/~biglou/resources/bad-words.txt","profanity.txt")}
+profanity<-read.csv("profanity.txt")
+
+library(tm)
+set.seed(12345)
+blogsv<-VectorSource(blogs)
+blogsc<-Corpus(blogsv)
+blogst<-tm_map(blogsc,FUN=removeNumbers)
+blogst<-tm_map(blogst,FUN=removePunctuation)
+blogst<-tm_map(blogst,FUN=stripWhitespace)
+blogst<-tm_map(blogst,FUN=content_transformer(tolower))
+blogst<-tm_map(blogst,removeWords,stopwords("english"))
+blogst<-tm_map(blogst,removeWords,as.vector(profanity[,1]))
+rm(blogsv)
+rm(blogsc)
+
+newsv<-VectorSource(news)
+newsc<-Corpus(newsv)
+newst<-tm_map(newsc,FUN=removeNumbers)
+newst<-tm_map(newst,FUN=removePunctuation)
+newst<-tm_map(newst,FUN=stripWhitespace)
+newst<-tm_map(newst,FUN=content_transformer(tolower))
+newst<-tm_map(newst,removeWords,stopwords("english"))
+newst<-tm_map(newst,removeWords,as.vector(profanity[,1]))
+rm(newsv)
+rm(newsc)
+
+twitterv<-VectorSource(twitter)
+twitterc<-Corpus(twitterv)
+twittert<-tm_map(twitterc,FUN=removeNumbers)
+twittert<-tm_map(twittert,FUN=removePunctuation)
+twittert<-tm_map(twittert,FUN=stripWhitespace)
+twittert<-tm_map(twittert,FUN=content_transformer(tolower))
+twittert<-tm_map(twittert,removeWords,stopwords("english"))
+twittert<-tm_map(twittert,removeWords,as.vector(profanity[,1]))
+rm(twitterv)
+rm(twitterc)
+```
 
 #task 2
 Exploratory analysis - perform a thorough exploratory analysis of the data, understanding the distribution of words and relationship between the words in the corpora.
